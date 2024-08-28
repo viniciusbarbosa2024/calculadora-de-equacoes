@@ -16,6 +16,7 @@ body {
 
 main {
     max-width: 700px;
+    width: 700px;
     height: 300px;
     
     background-color: #fafafa;
@@ -23,4 +24,20 @@ main {
 
 #screen {
     width: 100%;
+}
+
+#buttonArea {
+    display: grid;
+    grid-template-columns: 70px 70px 70px 70px 70px 70px;
+}
+
+#buttonArea .button {
+    padding: 10px;
+
+    background-color: rgb(238, 238, 238);
+}
+
+#buttonArea #deleteCharacter img {
+    width: 25px;
+    
 }
