@@ -10,6 +10,9 @@ const addition = document.getElementById("addition");
 const parentheses = document.getElementById("parentheses");
 const comma = document.getElementById("comma");
 const equals = document.getElementById("equals");
+const variableX = document.getElementById('variableX')
+const variableX2 = document.getElementById('variableX2')
+
 
 //Array que conterá todos os botões de números
 const buttonNumber = Array(10);
@@ -49,7 +52,7 @@ deleteCharacter.addEventListener("click", () =>
 );
 percentage.addEventListener("click", () => generalFunction("%"));
 division.addEventListener("click", () => generalFunction("/"));
-multiplication.addEventListener("click", () => generalFunction("x"));
+multiplication.addEventListener("click", () => generalFunction("*"));
 subtraction.addEventListener("click", () => generalFunction("-"));
 addition.addEventListener("click", () => generalFunction("+"));
 parentheses.addEventListener("click", () =>
@@ -57,6 +60,9 @@ parentheses.addEventListener("click", () =>
 );
 comma.addEventListener("click", () => generalFunction(","));
 equals.addEventListener("click", () => generalFunction("="));
+variableX.addEventListener('click',() => generalFunction('x'))
+variableX2.addEventListener('click',() => generalFunction('x^2'))
+
 
 function displayCursor() {
   screen.focus();
@@ -164,9 +170,8 @@ function identifyExpression() {
   let buttonsClickedCopy = [...ExpressionArray];
 
   buttonsClickedCopy.forEach((element, index) => {
-    if (element == "x") {
-      buttonsClickedCopy[index] = "*";
-    } else if (element == ",") {
+    
+    if (element == ",") {
       buttonsClickedCopy[index] = ".";
     } else if (element == "%") {
       buttonsClickedCopy[index] = "/100*";
@@ -285,6 +290,22 @@ function ThereAreClosedParenthesesImmediatelyBeforeTheCursor() {
   }
 }
 
+//Identifica o tipo do value (number,operator e etc.)
+function valueType(value) {
+  switch (typeof value) {
+    case 'number':
+      return 'number'
+    case 'string':
+      if (value === '(' || value === ')') {
+        return 'parenthese'
+      } else if (aindaNada) {
+        // Terminar essa função
+      }
+      break
+      
+  }
+}
+
 function generalFunction(value) {
   switch (value) {
     case "clear":
@@ -345,7 +366,7 @@ function generalFunction(value) {
             value === "(" &&
             (typeOfCharacterBeforeCursor() === "number" || ThereAreClosedParenthesesImmediatelyBeforeTheCursor() )
           ) {
-            storeValueAndDisplayIt("x");
+            storeValueAndDisplayIt("*");
 
             updateCursorPositionOnScreen("add");
 
