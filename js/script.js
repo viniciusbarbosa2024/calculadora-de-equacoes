@@ -61,7 +61,7 @@ parentheses.addEventListener("click", () =>
 comma.addEventListener("click", () => generalFunction(","));
 equals.addEventListener("click", () => generalFunction("="));
 variableX.addEventListener('click',() => generalFunction('x'))
-variableX2.addEventListener('click',() => generalFunction('x2'))
+variableX2.addEventListener('click',() => generalFunction('x^2'))
 
 
 function displayCursor() {
@@ -295,7 +295,7 @@ function valueType(value) {
     case 'string':
       if (value === '(' || value === ')') {
         return 'parenthese'
-      } else if (value === 'x' || value === 'x2') {
+      } else if (value === 'x' || value === 'x^2') {
         return 'variable'
       } else {
         return 'operator'
@@ -391,7 +391,9 @@ function generalFunction(value) {
           break
 
         case 'variable':
+          storeValueAndDisplayIt(value)
 
+          updateCursorPositionOnScreen('add')
           break
       }
   }
