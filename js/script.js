@@ -1,4 +1,5 @@
 const screen = document.getElementById("screen");
+const solve = document.getElementById("solve")
 const clear = document.getElementById("clear");
 const deleteCharacter = document.getElementById("deleteCharacter");
 const percentage = document.getElementById("percentage");
@@ -33,6 +34,8 @@ screen.addEventListener("click", checkCursorPosition);
 screen.addEventListener("keydown", (e) => {
   e.preventDefault(); //Impedir manipulação da expressão usando o teclado
 });
+
+solve.addEventListener('click',() => generalFunction('solve'))
 
 buttonNumber.forEach((element, index) => {
   buttonNumber[index].addEventListener("click", () =>
@@ -194,7 +197,6 @@ function storeValueAndDisplayIt(value) {
 
   displayOnScreen(arrayToString(ExpressionArray));
 
-  //updateCursorPositionOnScreen(typeOfModificationInTheExpression)
 }
 
 function checkCursorPosition(e) {
@@ -255,17 +257,7 @@ function enableTheUseOfTheResultForNewOperations(result) {
   });
 }
 
-//Verifica se a expressão está zerada
-function checkIfTheExpressionIsZero() {
-  if (ExpressionArray.length === 1 && ExpressionArray[0] === 0) {
-    return true;
-  } else {
-    return false;
-  }
-}
 
-//Melhorar código
-//Renomear função
 function characterBeforeCursorIsAOperator() {
   if (
     typeOfCharacterBeforeCursor() === "string" &&
@@ -320,7 +312,7 @@ function generalFunction(value) {
 
       break;
 
-    case "=":
+    case "solve":
       let result = solveExpression(identifyExpression());
 
       displayOnScreen(result.toLocaleString("pt-br"));
@@ -348,6 +340,7 @@ function generalFunction(value) {
             valueToBeAddedIsNotParentheses(value)
           ) {
             alert("formato inválido");
+            displayCursor()
           } else if (
             value === "(" &&
             (typeOfCharacterBeforeCursor() === "number" || ThereAreClosedParenthesesImmediatelyBeforeTheCursor() )
