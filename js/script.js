@@ -399,6 +399,3 @@ function generalFunction(value) {
   }
 }
 
-
-//Desenvolver case variable
-
