@@ -26,16 +26,30 @@ main {
     width: 100%;
 }
 
+
 #buttonArea {
-    display: grid;
-    grid-template-columns: 70px 70px 70px 70px 70px 70px;
+    display: flex;
 }
+
+#buttonArea #otherButtons {
+    display: grid;
+    grid-template-columns: repeat(3,70px);
+}
+
 
 #buttonArea .button {
     padding: 10px;
 
     background-color: rgb(238, 238, 238);
 }
+
+#buttonArea #numbers {
+    display: grid;
+    grid-template-columns: repeat(3,70px);
+}
+
+
+
 
 #buttonArea #deleteCharacter img {
     width: 25px;
