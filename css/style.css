@@ -11,40 +11,69 @@ body {
     justify-content: center;
     align-items: center;
 
-    background-color: lightgray;
+    background-color: rgb(0, 61, 192);
 }
 
 main {
     max-width: 700px;
     width: 700px;
-    height: 300px;
+    height: 400px;
+
+    padding: 10px;
     
     background-color: #fafafa;
 }
 
+h1 {
+    padding: 10px 0px;
+}
+
 #screen {
     width: 100%;
+    
+    padding: 10px;
+
+    font-size: 1.5em;
 }
 
 
 #buttonArea {
     display: flex;
+
+    width: 70%;
+
+    margin: 10px auto;
 }
 
 #buttonArea #otherButtons {
     display: grid;
+    gap: 5px;
     grid-template-columns: repeat(3,70px);
+
+    margin-left: 5px;
 }
 
 
 #buttonArea .button {
+    height: 40px;
     padding: 10px;
+
+    text-align: center;
+
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.425);
+    font-weight: bolder;
 
     background-color: rgb(238, 238, 238);
 }
 
+#buttonArea #otherButtons #deleteCharacter img {
+    width: 20px;
+}
+
 #buttonArea #numbers {
     display: grid;
+    gap: 5px;
     grid-template-columns: repeat(3,70px);
 }
 
