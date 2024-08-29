@@ -264,13 +264,10 @@ function enableTheUseOfTheResultForNewOperations(result) {
 
 
 function characterBeforeCursorIsAOperator() {
-  if (
-    typeOfCharacterBeforeCursor() === "string" &&
-    characterBeforeCursor() != ")"
-  ) {
-    return true;
+  if (valueType(characterBeforeCursor()) === 'operator') {
+    return true
   } else {
-    return false;
+    return false
   }
 }
 
