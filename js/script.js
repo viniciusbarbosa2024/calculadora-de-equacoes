@@ -19,7 +19,7 @@ buttonNumber.forEach((element, index) => {
   buttonNumber[index] = document.getElementById(`number${index}`);
 });
 
-const ExpressionArray = [0];
+const ExpressionArray = [];
 
 let cursorPosition = ExpressionArray.length;
 
@@ -149,8 +149,6 @@ function resetCursorPosition() {
 function clearAll() {
   clearExpressionArray();
 
-  ExpressionArray.push(0);
-
   resetCursorPosition();
 }
 
@@ -268,7 +266,7 @@ function checkIfTheExpressionIsZero() {
 
 //Melhorar código
 //Renomear função
-function lastCharacterOfTheExpressionIsAnOperator() {
+function characterBeforeCursorIsAOperator() {
   if (
     typeOfCharacterBeforeCursor() === "string" &&
     characterBeforeCursor() != ")"
@@ -307,15 +305,11 @@ function generalFunction(value) {
       break;
 
     case "deleteCharacter":
-      if (ExpressionArray.length === 1) {
-        //Evitar que a tela fique vazia
-        deleteDesiredCharacter();
+      if (ExpressionArray.length === 0) {
 
-        ExpressionArray.push(0);
+        displayCursor()
 
-        displayOnScreen(arrayToString(ExpressionArray));
-
-        displayCursor();
+        return
       } else {
         deleteDesiredCharacter();
 
@@ -342,22 +336,15 @@ function generalFunction(value) {
     default:
       switch (typeof value) {
         case "number":
-          if (checkIfTheExpressionIsZero()) {
-            clearExpressionArray(); //Remove o '0' da tela para adicionar o novo valor
 
-            storeValueAndDisplayIt(value);
+          storeValueAndDisplayIt(value)
 
-            updateCursorPositionOnScreen("keep");
-          } else {
-            storeValueAndDisplayIt(value);
-
-            updateCursorPositionOnScreen("add");
-          }
+          updateCursorPositionOnScreen("add")
 
           break;
         case "string":
           if (
-            lastCharacterOfTheExpressionIsAnOperator() &&
+            (characterBeforeCursorIsAOperator() || ExpressionArray.length === 0) &&
             valueToBeAddedIsNotParentheses(value)
           ) {
             alert("formato inválido");
