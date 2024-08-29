@@ -304,6 +304,15 @@ function valueType(value) {
   }
 }
 
+//Condição para adicionar o operador de multiplicação antes da abertura de parênteses
+function conditionForAddingMultiplicationOperator() {
+  if (valueType(characterBeforeCursor()) === 'number' || ThereAreClosedParenthesesImmediatelyBeforeTheCursor()) {
+    return true
+  } else {
+    return false
+  }
+}
+
 function generalFunction(value) {
   switch (value) {
     case "clear":
@@ -366,7 +375,7 @@ function generalFunction(value) {
           break
 
         case 'parenthese':
-          if (value === '(' && (typeOfCharacterBeforeCursor() === 'number' || ThereAreClosedParenthesesImmediatelyBeforeTheCursor())) {
+          if (value === '(' && conditionForAddingMultiplicationOperator()) {
             storeValueAndDisplayIt("*");
 
             updateCursorPositionOnScreen("add");
@@ -388,6 +397,6 @@ function generalFunction(value) {
   }
 }
 
-//Ver função typeOfCharacterBeforeCursor
+
 //Desenvolver case variable
 
