@@ -348,25 +348,28 @@ function generalFunction(value) {
       break;
 
     default:
-      switch (typeof value) {
-        case "number":
+      switch (valueType(value)) {
+        case 'number': 
 
           storeValueAndDisplayIt(value)
 
-          updateCursorPositionOnScreen("add")
+          updateCursorPositionOnScreen('add')
 
-          break;
-        case "string":
-          if (
-            (characterBeforeCursorIsAOperator() || ExpressionArray.length === 0) &&
-            valueToBeAddedIsNotParentheses(value)
-          ) {
-            alert("formato inválido");
+          break
+
+        case 'operator': 
+          if (characterBeforeCursorIsAOperator() || ExpressionArray.length === 0) {
+            alert('formato inválido')
             displayCursor()
-          } else if (
-            value === "(" &&
-            (typeOfCharacterBeforeCursor() === "number" || ThereAreClosedParenthesesImmediatelyBeforeTheCursor() )
-          ) {
+          } else {
+            storeValueAndDisplayIt(value)
+
+            updateCursorPositionOnScreen('add')
+          }
+          break
+
+        case 'parenthese':
+          if (value === '(' && (typeOfCharacterBeforeCursor() === 'number' || ThereAreClosedParenthesesImmediatelyBeforeTheCursor())) {
             storeValueAndDisplayIt("*");
 
             updateCursorPositionOnScreen("add");
@@ -375,12 +378,19 @@ function generalFunction(value) {
 
             updateCursorPositionOnScreen("add");
           } else {
-            storeValueAndDisplayIt(value);
+            storeValueAndDisplayIt(value)
 
-            updateCursorPositionOnScreen("add");
+            updateCursorPositionOnScreen('add')
           }
+          break
 
-          break;
+        case 'variable':
+
+          break
       }
   }
 }
+
+//Ver função typeOfCharacterBeforeCursor
+//Desenvolver case variable
+
