@@ -167,17 +167,17 @@ function deleteDesiredCharacter() {
 
 function identifyExpression() {
   let stringExpression = "";
-  let buttonsClickedCopy = [...ExpressionArray];
+  let ExpressionArrayCopy = [...ExpressionArray];
 
-  buttonsClickedCopy.forEach((element, index) => {
+  ExpressionArrayCopy.forEach((element, index) => {
     
     if (element == ",") {
-      buttonsClickedCopy[index] = ".";
+      ExpressionArrayCopy[index] = ".";
     } else if (element == "%") {
-      buttonsClickedCopy[index] = "/100*";
+      ExpressionArrayCopy[index] = "/100*";
     }
 
-    stringExpression += buttonsClickedCopy[index];
+    stringExpression += ExpressionArrayCopy[index];
   });
 
   return stringExpression;
@@ -313,6 +313,14 @@ function conditionForAddingMultiplicationOperator() {
   }
 }
 
+function characterBeforeCursorIsAVariable() {
+  if (valueType(characterBeforeCursor()) === 'variable') {
+    return true
+  } else {
+    return false
+  }
+}
+
 function generalFunction(value) {
   switch (value) {
     case "clear":
@@ -356,11 +364,21 @@ function generalFunction(value) {
     default:
       switch (valueType(value)) {
         case 'number': 
+          if (characterBeforeCursorIsAVariable()) {
+            storeValueAndDisplayIt('*')
 
-          storeValueAndDisplayIt(value)
+            updateCursorPositionOnScreen('add')
 
-          updateCursorPositionOnScreen('add')
+            storeValueAndDisplayIt(value)
 
+            updateCursorPositionOnScreen('add')
+
+          } else {
+            storeValueAndDisplayIt(value)
+
+            updateCursorPositionOnScreen('add')
+          }
+      
           break
 
         case 'operator': 
@@ -391,11 +409,25 @@ function generalFunction(value) {
           break
 
         case 'variable':
-          storeValueAndDisplayIt(value)
+          if (valueType(characterBeforeCursor()) === 'number' || valueType(characterBeforeCursor()) === 'parenthese') {
+            storeValueAndDisplayIt('*')
 
-          updateCursorPositionOnScreen('add')
+            updateCursorPositionOnScreen('add')
+
+            storeValueAndDisplayIt(value)
+
+            updateCursorPositionOnScreen('add')
+          } else {
+            storeValueAndDisplayIt(value)
+
+            updateCursorPositionOnScreen('add')
+          }
+        
+          
           break
       }
   }
 }
+
+//Fazer validações da equação
 
