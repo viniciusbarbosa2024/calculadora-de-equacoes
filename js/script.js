@@ -383,6 +383,8 @@ function formatExpression() {
     }
   })
 
+
+  return formattedExpression
   //* A addendOfCorrection serve para que o index da ExpressionArray seja correspondente ao index da formattedExpression (iniciamente cópia da ExpressionArray) que sofre redução no número de elementos devido ao uso do splice
 }
 
@@ -414,11 +416,21 @@ function generalFunction(value) {
       break;
 
     case "solve":
-      //Teste
+      if (ExpressionArray.includes('x')) {
         //Toda função de primeiro grau pode ser reduzida à ax+b=0, sendo portanto x=-b/a
 
-        formatExpression()
-      //Teste
+        let formattedExpression = formatExpression()
+
+        //Dado uma expressão do tipo [a,*,'x',+,b,=,0]
+
+        let a = formattedExpression[formattedExpression.indexOf('x') - 2]
+
+        let b = Number(formattedExpression[formattedExpression.indexOf('x')+1] + formattedExpression[formattedExpression.indexOf('x')+2])
+
+        
+
+        let valueOfX = -b/a
+      }
     
       let result = solveExpression(identifyExpression());
 
@@ -488,7 +500,19 @@ function generalFunction(value) {
             storeValueAndDisplayIt(value)
 
             updateCursorPositionOnScreen('add')
+          } else if (characterBeforeCursor() === '*') {
+            storeValueAndDisplayIt(value)
+
+            updateCursorPositionOnScreen('add')
           } else {
+            storeValueAndDisplayIt(1)
+
+            updateCursorPositionOnScreen('add')
+
+            storeValueAndDisplayIt('*')
+
+            updateCursorPositionOnScreen('add')
+
             storeValueAndDisplayIt(value)
 
             updateCursorPositionOnScreen('add')
