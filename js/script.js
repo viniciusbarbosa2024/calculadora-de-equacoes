@@ -388,6 +388,22 @@ function formatExpression() {
   //* A addendOfCorrection serve para que o index da ExpressionArray seja correspondente ao index da formattedExpression (iniciamente cópia da ExpressionArray) que sofre redução no número de elementos devido ao uso do splice
 }
 
+function solveEquation() {
+  //Toda função de primeiro grau pode ser reduzida à ax+b=0, sendo portanto x=-b/a
+
+  let formattedExpression = formatExpression()
+
+  //Dado uma expressão do tipo [a,*,'x',+,b,=,0]
+
+  let a = formattedExpression[formattedExpression.indexOf('x') - 2]
+
+  let b = Number(formattedExpression[formattedExpression.indexOf('x')+1] + formattedExpression[formattedExpression.indexOf('x')+2])
+
+  let valueOfX = -b/a
+
+  return valueOfX
+}
+
 function generalFunction(value) {
   switch (value) {
     case "clear":
@@ -417,19 +433,9 @@ function generalFunction(value) {
 
     case "solve":
       if (ExpressionArray.includes('x')) {
-        //Toda função de primeiro grau pode ser reduzida à ax+b=0, sendo portanto x=-b/a
+        let valueOfX = solveEquation()
 
-        let formattedExpression = formatExpression()
-
-        //Dado uma expressão do tipo [a,*,'x',+,b,=,0]
-
-        let a = formattedExpression[formattedExpression.indexOf('x') - 2]
-
-        let b = Number(formattedExpression[formattedExpression.indexOf('x')+1] + formattedExpression[formattedExpression.indexOf('x')+2])
-
-        
-
-        let valueOfX = -b/a
+        displayOnScreen(`x = ${valueOfX}`)
       }
     
       let result = solveExpression(identifyExpression());
