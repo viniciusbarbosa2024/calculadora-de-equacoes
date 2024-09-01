@@ -321,7 +321,8 @@ function characterBeforeCursorIsAVariable() {
   }
 }
 
-function formatEquation() {
+//Formatar expressão de forma que os coeficentes da equação fiquem facilmente identificáveis (Transforma por exemplo [1,2,5,*,x+,1,2,=,1,4,2] em [125,*,x,+,12,=142])
+function formatExpression() {
   let numberMaker = ''
   let formattedExpression = [...ExpressionArray]
   let addendOfCorrection = 0
@@ -329,22 +330,28 @@ function formatEquation() {
   ExpressionArray.forEach((element,index)=> {
     if (valueType(element) === 'number') {
       if (index === ExpressionArray.length-1) {
+        //Ver * no fim desta função
+        
         numberMaker+=String(element)
 
-        formattedExpression.splice(index-numberMaker.length + 1 - addendOfCorrection,numberMaker.length,Number(numberMaker))
+        formattedExpression.splice(index - addendOfCorrection - numberMaker.length + 1,numberMaker.length,Number(numberMaker))
 
         numberMaker=''
       } else {
         numberMaker+=String(element)
       }
     } else if (valueType(element) === 'operator' && valueType(ExpressionArray[index-1]) != 'variable'){
-      formattedExpression.splice(index-numberMaker.length - addendOfCorrection,numberMaker.length,Number(numberMaker))
+      //Ver * no fim desta função
+      
+      formattedExpression.splice(index - addendOfCorrection - numberMaker.length,numberMaker.length,Number(numberMaker))
 
       addendOfCorrection += numberMaker.length - 1
 
       numberMaker=''
     }
   })
+
+  //* A addendOfCorrection serve para que o index da ExpressionArray seja correspondente ao index da formattedExpression (iniciamente cópia da ExpressionArray) que sofre redução no número de elementos devido ao uso do splice
 }
 
 function generalFunction(value) {
@@ -378,7 +385,7 @@ function generalFunction(value) {
       //Teste
         //Toda função de primeiro grau pode ser reduzida à ax+b=0, sendo portanto x=-b/a
 
-        formatEquation()
+        formatExpression()
       //Teste
     
       let result = solveExpression(identifyExpression());
