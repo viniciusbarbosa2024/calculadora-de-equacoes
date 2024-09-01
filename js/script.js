@@ -321,6 +321,38 @@ function characterBeforeCursorIsAVariable() {
   }
 }
 
+function theElementIsANumber(element) {
+  if (valueType(element) === 'number') {
+    return true
+  } else {
+    return false
+  }
+}
+
+function theIndexRefersToTheLastElementOfTheArray(index) {
+  if (index === ExpressionArray.length-1) {
+    return true
+  } else {
+    return false
+  }
+}
+
+function theElementIsAOperator(element) {
+  if (valueType(element) === 'operator') {
+    return true
+  } else {
+    return false
+  }
+}
+
+function theElementBeforeThisOneIsNotAVariable(index) {
+  if (valueType(ExpressionArray[index-1]) != 'variable') {
+    return true
+  } else {
+    return false
+  }
+}
+
 //Formatar expressão de forma que os coeficentes da equação fiquem facilmente identificáveis (Transforma por exemplo [1,2,5,*,x+,1,2,=,1,4,2] em [125,*,x,+,12,=142])
 function formatExpression() {
   let numberMaker = ''
@@ -328,8 +360,8 @@ function formatExpression() {
   let addendOfCorrection = 0
   
   ExpressionArray.forEach((element,index)=> {
-    if (valueType(element) === 'number') {
-      if (index === ExpressionArray.length-1) {
+    if (theElementIsANumber(element)) {
+      if (theIndexRefersToTheLastElementOfTheArray(index)) {
         //Ver * no fim desta função
         
         numberMaker+=String(element)
@@ -340,7 +372,7 @@ function formatExpression() {
       } else {
         numberMaker+=String(element)
       }
-    } else if (valueType(element) === 'operator' && valueType(ExpressionArray[index-1]) != 'variable'){
+    } else if (theElementIsAOperator(element) && theElementBeforeThisOneIsNotAVariable(index)){
       //Ver * no fim desta função
       
       formattedExpression.splice(index - addendOfCorrection - numberMaker.length,numberMaker.length,Number(numberMaker))
