@@ -388,24 +388,33 @@ function formatExpression() {
   //* A addendOfCorrection serve para que o index da ExpressionArray seja correspondente ao index da formattedExpression (iniciamente cópia da ExpressionArray) que sofre redução no número de elementos devido ao uso do splice
 }
 
+function getCoefficienteA(formattedExpression,positionOfXInTheFormattedExpression) {
+  //Dado formattedExpression do tipo
+  
+  if (formattedExpression.indexOf('x') - 3 >=0) {
+    return Number(formattedExpression[positionOfXInTheFormattedExpression - 3] + formattedExpression[positionOfXInTheFormattedExpression-2])
+  } else {
+    return Number(formattedExpression[positionOfXInTheFormattedExpression -2])
+  }
+}
+
+function getCoefficienteB(formattedExpression,positionOfXInTheFormattedExpression) {
+  return Number(formattedExpression[positionOfXInTheFormattedExpression+1] + formattedExpression[positionOfXInTheFormattedExpression+2])
+}
+
 function solveEquation() {
   //Toda função de primeiro grau pode ser reduzida à ax+b=0, sendo portanto x=-b/a
 
   let formattedExpression = formatExpression()
 
+
   //Dado uma expressão do tipo [a,*,'x',+,b,=,0]
 
-  let a = null
+  let positionOfXInTheFormattedExpression = formattedExpression.indexOf('x')
 
-  if (formattedExpression.indexOf('x') - 3 >=0) {
-    a = Number(formattedExpression[formattedExpression.indexOf('x') - 3] + formattedExpression[formattedExpression.indexOf('x')-2])
-  } else {
-    a = formattedExpression[formattedExpression.indexOf('x') -2]
-  }
+  let a = getCoefficienteA(formattedExpression,positionOfXInTheFormattedExpression)
 
-  
-
-  let b = Number(formattedExpression[formattedExpression.indexOf('x')+1] + formattedExpression[formattedExpression.indexOf('x')+2])
+  let b = getCoefficienteB(formattedExpression,positionOfXInTheFormattedExpression)
 
   let valueOfX = -b/a
 
@@ -537,6 +546,8 @@ function generalFunction(value) {
       }
   }
 }
+
+//Ver problema da formattedExpression
 
 //Validações das vírgulas
 //Validação do =
