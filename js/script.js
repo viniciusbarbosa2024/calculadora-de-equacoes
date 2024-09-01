@@ -395,7 +395,15 @@ function solveEquation() {
 
   //Dado uma expressão do tipo [a,*,'x',+,b,=,0]
 
-  let a = formattedExpression[formattedExpression.indexOf('x') - 2]
+  let a = null
+
+  if (formattedExpression.indexOf('x') - 3 >=0) {
+    a = Number(formattedExpression[formattedExpression.indexOf('x') - 3] + formattedExpression[formattedExpression.indexOf('x')-2])
+  } else {
+    a = formattedExpression[formattedExpression.indexOf('x') -2]
+  }
+
+  
 
   let b = Number(formattedExpression[formattedExpression.indexOf('x')+1] + formattedExpression[formattedExpression.indexOf('x')+2])
 
@@ -471,7 +479,7 @@ function generalFunction(value) {
           break
 
         case 'operator': 
-          if (characterBeforeCursorIsAOperator() || ExpressionArray.length === 0) {
+          if (characterBeforeCursorIsAOperator()) {
             alert('formato inválido')
             displayCursor()
           } else {
