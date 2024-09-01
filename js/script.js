@@ -321,6 +321,32 @@ function characterBeforeCursorIsAVariable() {
   }
 }
 
+function formatEquation() {
+  let numberMaker = ''
+  let formattedExpression = [...ExpressionArray]
+  let addendOfCorrection = 0
+  
+  ExpressionArray.forEach((element,index)=> {
+    if (valueType(element) === 'number') {
+      if (index === ExpressionArray.length-1) {
+        numberMaker+=String(element)
+
+        formattedExpression.splice(index-numberMaker.length + 1 - addendOfCorrection,numberMaker.length,Number(numberMaker))
+
+        numberMaker=''
+      } else {
+        numberMaker+=String(element)
+      }
+    } else if (valueType(element) === 'operator' && valueType(ExpressionArray[index-1]) != 'variable'){
+      formattedExpression.splice(index-numberMaker.length - addendOfCorrection,numberMaker.length,Number(numberMaker))
+
+      addendOfCorrection += numberMaker.length - 1
+
+      numberMaker=''
+    }
+  })
+}
+
 function generalFunction(value) {
   switch (value) {
     case "clear":
@@ -349,6 +375,12 @@ function generalFunction(value) {
       break;
 
     case "solve":
+      //Teste
+        //Toda função de primeiro grau pode ser reduzida à ax+b=0, sendo portanto x=-b/a
+
+        formatEquation()
+      //Teste
+    
       let result = solveExpression(identifyExpression());
 
       displayOnScreen(result.toLocaleString("pt-br"));
@@ -429,5 +461,6 @@ function generalFunction(value) {
   }
 }
 
-//Fazer validações da equação
+//Validações das vírgulas
+//Validação do =
 
