@@ -409,19 +409,16 @@ function getCoefficienteB(formattedExpression,positionOfXInTheFormattedExpressio
   return Number(formattedExpression[positionOfXInTheFormattedExpression+1] + formattedExpression[positionOfXInTheFormattedExpression+2])
 }
 
-function solveEquation() {
+function solveEquation(equation) {
   //Toda função de primeiro grau pode ser reduzida à ax+b=0, sendo portanto x=-b/a
-
-  let formattedExpression = formatExpression(ExpressionArray)
-
 
   //Dado uma expressão do tipo [a,*,'x',+,b,=,0]
 
-  let positionOfXInTheFormattedExpression = formattedExpression.indexOf('x')
+  let positionOfXInTheFormattedExpression = equation.indexOf('x')
 
-  let a = getCoefficienteA(formattedExpression,positionOfXInTheFormattedExpression)
+  let a = getCoefficienteA(equation,positionOfXInTheFormattedExpression)
 
-  let b = getCoefficienteB(formattedExpression,positionOfXInTheFormattedExpression)
+  let b = getCoefficienteB(equation,positionOfXInTheFormattedExpression)
 
   let valueOfX = -b/a
 
@@ -457,13 +454,15 @@ function getExpressionInCanonicalForm() {
 
   let CoefficientB = numericalPartOfTheLeftLimb - rightLimb
 
-  formattedExpression.splice(positionOfX+2)
+  let signOfCoefficientB = null
 
-  let expressionArrayInCanonicalForm =[...formattedExpression,CoefficientB,'=',0]
+  signOfCoefficientB = CoefficientB > 0 ? '+':'-'
 
-  alert(expressionArrayInCanonicalForm)
+  formattedExpression.splice(positionOfX+1)
 
-  return 
+  let expressionArrayInCanonicalForm =[...formattedExpression,signOfCoefficientB,Math.abs(CoefficientB),'=',0]
+
+  return expressionArrayInCanonicalForm
 }
 
 function generalFunction(value) {
@@ -499,7 +498,7 @@ function generalFunction(value) {
       if (ExpressionArray.includes('x')) {
         let expressionArrayInCanonicalForm = getExpressionInCanonicalForm()
         
-        let valueOfX = solveEquation()
+        let valueOfX = solveEquation(expressionArrayInCanonicalForm)
 
         displayOnScreen(`x = ${valueOfX}`)
       }
@@ -599,6 +598,7 @@ function generalFunction(value) {
 }
 
 //Fazer testes da redução para a forma canônica
+//Melhorar código da solveEquation
 
 //Validações das vírgulas
 //Validação do =
