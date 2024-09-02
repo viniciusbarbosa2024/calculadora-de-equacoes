@@ -165,19 +165,19 @@ function deleteDesiredCharacter() {
   ExpressionArray.splice(cursorPosition - 1, 1);
 }
 
-function identifyExpression() {
+function identifyExpression(expression) {
   let stringExpression = "";
-  let ExpressionArrayCopy = [...ExpressionArray];
+  
 
-  ExpressionArrayCopy.forEach((element, index) => {
+  expression.forEach((element, index) => {
     
     if (element == ",") {
-      ExpressionArrayCopy[index] = ".";
+      expression[index] = ".";
     } else if (element == "%") {
-      ExpressionArrayCopy[index] = "/100*";
+      expression[index] = "/100*";
     }
 
-    stringExpression += ExpressionArrayCopy[index];
+    stringExpression += expression[index];
   });
 
   return stringExpression;
@@ -443,7 +443,11 @@ function getExpressionInCanonicalForm() {
   
   //Caso ax+i=j
 
-
+  let positionOfEqual = formattedExpression.indexOf('=')
+  let rightLimb = formattedExpression.slice(positionOfEqual+1)
+  
+  rightLimb = solveExpression(identifyExpression(rightLimb))
+  alert(rightLimb)
 }
 
 function generalFunction(value) {
@@ -486,7 +490,7 @@ function generalFunction(value) {
 
       //----------------------------------
     
-      let result = solveExpression(identifyExpression());
+      let result = solveExpression(identifyExpression(ExpressionArray));
 
       displayOnScreen(result.toLocaleString("pt-br"));
 
