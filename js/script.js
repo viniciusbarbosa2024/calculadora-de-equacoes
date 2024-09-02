@@ -362,9 +362,9 @@ function theElementIsNotThefirstInTheExpression(index) {
 }
 
 //Formatar expressão de forma que os coeficentes da equação fiquem facilmente identificáveis (Transforma por exemplo [1,2,5,*,x+,1,2,=,1,4,2] em [125,*,x,+,12,=142])
-function formatExpression() {
+function formatExpression(expression) {
   let numberMaker = ''
-  let formattedExpression = [...ExpressionArray]
+  let formattedExpression = [...expression]
   let addendOfCorrection = 0
   
   ExpressionArray.forEach((element,index)=> {
@@ -412,7 +412,7 @@ function getCoefficienteB(formattedExpression,positionOfXInTheFormattedExpressio
 function solveEquation() {
   //Toda função de primeiro grau pode ser reduzida à ax+b=0, sendo portanto x=-b/a
 
-  let formattedExpression = formatExpression()
+  let formattedExpression = formatExpression(ExpressionArray)
 
 
   //Dado uma expressão do tipo [a,*,'x',+,b,=,0]
@@ -436,6 +436,14 @@ function theOperatorIsInvalidToBeTheFirstElementOfTheExpression(value) {
     return true
   }
   
+}
+
+function getExpressionInCanonicalForm() {
+  let formattedExpression = formatExpression(ExpressionArray)
+  
+  //Caso ax+i=j
+
+
 }
 
 function generalFunction(value) {
@@ -466,11 +474,17 @@ function generalFunction(value) {
       break;
 
     case "solve":
+      //Referente ao solução de equações
+    
       if (ExpressionArray.includes('x')) {
+        let expressionArrayInCanonicalForm = getExpressionInCanonicalForm()
+        
         let valueOfX = solveEquation()
 
         displayOnScreen(`x = ${valueOfX}`)
       }
+
+      //----------------------------------
     
       let result = solveExpression(identifyExpression());
 
