@@ -353,6 +353,14 @@ function theElementBeforeThisOneIsNotAVariable(index) {
   }
 }
 
+function theElementIsNotThefirstInTheExpression(index) {
+  if (index === 0) {
+    return false
+  } else {
+    return true
+  }
+}
+
 //Formatar expressão de forma que os coeficentes da equação fiquem facilmente identificáveis (Transforma por exemplo [1,2,5,*,x+,1,2,=,1,4,2] em [125,*,x,+,12,=142])
 function formatExpression() {
   let numberMaker = ''
@@ -372,7 +380,7 @@ function formatExpression() {
       } else {
         numberMaker+=String(element)
       }
-    } else if (theElementIsAOperator(element) && theElementBeforeThisOneIsNotAVariable(index)){
+    } else if (theElementIsAOperator(element) && theElementBeforeThisOneIsNotAVariable(index) && theElementIsNotThefirstInTheExpression(index)){
       //Ver * no fim desta função
       
       formattedExpression.splice(index - addendOfCorrection - numberMaker.length,numberMaker.length,Number(numberMaker))
@@ -382,7 +390,6 @@ function formatExpression() {
       numberMaker=''
     }
   })
-
 
   return formattedExpression
   //* A addendOfCorrection serve para que o index da ExpressionArray seja correspondente ao index da formattedExpression (iniciamente cópia da ExpressionArray) que sofre redução no número de elementos devido ao uso do splice
@@ -419,6 +426,16 @@ function solveEquation() {
   let valueOfX = -b/a
 
   return valueOfX
+}
+
+function theOperatorIsInvalidToBeTheFirstElementOfTheExpression(value) {
+  //Dos operadores somente o '-' pode ser o primeiro da expressão,pois ele é o indicativo de um número negativo
+  if (value === '-') {
+    return false
+  } else {
+    return true
+  }
+  
 }
 
 function generalFunction(value) {
@@ -488,7 +505,7 @@ function generalFunction(value) {
           break
 
         case 'operator': 
-          if (characterBeforeCursorIsAOperator()) {
+          if (characterBeforeCursorIsAOperator() || (ExpressionArray.length === 0 &&theOperatorIsInvalidToBeTheFirstElementOfTheExpression(value))) {
             alert('formato inválido')
             displayCursor()
           } else {
@@ -547,7 +564,7 @@ function generalFunction(value) {
   }
 }
 
-//Ver problema da formattedExpression
+
 
 //Validações das vírgulas
 //Validação do =
