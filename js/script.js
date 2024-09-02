@@ -438,16 +438,32 @@ function theOperatorIsInvalidToBeTheFirstElementOfTheExpression(value) {
   
 }
 
+//Reduzir expressão para a forma ax+b=0
 function getExpressionInCanonicalForm() {
   let formattedExpression = formatExpression(ExpressionArray)
   
   //Caso ax+i=j
 
   let positionOfEqual = formattedExpression.indexOf('=')
+  let positionOfX = formattedExpression.indexOf('x')
+  
   let rightLimb = formattedExpression.slice(positionOfEqual+1)
+  let numericalPartOfTheLeftLimb = formattedExpression.slice(positionOfX+1,positionOfEqual)
+
   
   rightLimb = solveExpression(identifyExpression(rightLimb))
-  alert(rightLimb)
+
+  numericalPartOfTheLeftLimb = solveExpression(identifyExpression(numericalPartOfTheLeftLimb))
+
+  let CoefficientB = numericalPartOfTheLeftLimb - rightLimb
+
+  formattedExpression.splice(positionOfX+2)
+
+  let expressionArrayInCanonicalForm =[...formattedExpression,CoefficientB,'=',0]
+
+  alert(expressionArrayInCanonicalForm)
+
+  return 
 }
 
 function generalFunction(value) {
@@ -582,7 +598,7 @@ function generalFunction(value) {
   }
 }
 
-
+//Fazer testes da redução para a forma canônica
 
 //Validações das vírgulas
 //Validação do =
