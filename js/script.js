@@ -448,9 +448,12 @@ function setSignOfCoefficientB(coefficientB) {
   return coefficientB > 0 ? '+' : '-'
 }
 
+//Obtém a parte numérica do membro esquerdo da equação levando em consideração expressões numéricas anteriores ao x e posteriores a este
 function getNumericalPartOfTheLeftLimb(expression,positionOfX,positionOfEqual) {
   let numericalPartOfTheLeftLimbAnteriorToX = null
   let numericalPartOfTheLeftLimbPosteriorToX = expression.slice(positionOfX+1,positionOfEqual)
+
+  //Casos em que não há expressão numérica anterior ao x: [a,*,x,+,i,=,j] e [-,a,*,x,+,i,=,j],seno i e j expressões numéricas quaisquer. Em ambos os casos,positionOfX <=3,logo:
 
   if (positionOfX > 3) {
       //Há uma expressão numérica anterior ao a*x
