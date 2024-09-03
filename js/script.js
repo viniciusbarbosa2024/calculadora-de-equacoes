@@ -345,22 +345,6 @@ function theElementIsAOperator(element) {
   }
 }
 
-function theElementBeforeThisOneIsNotAVariable(index) {
-  if (valueType(ExpressionArray[index-1]) != 'variable') {
-    return true
-  } else {
-    return false
-  }
-}
-
-function theElementBeforeThisOneIsNotAParentheses(index) {
-  if (valueType(ExpressionArray[index-1]) != 'parenthese') {
-    return true
-  } else {
-    return false
-  }
-}
-
 function theElementBeforeThisOneIsANumber(index) {
   if (valueType(ExpressionArray[index-1]) === 'number') {
     return true
@@ -396,7 +380,7 @@ function formatExpression(expression) {
       } else {
         numberMaker+=String(element)
       }
-    } else if ((theElementIsAOperator(element) || (element ===')' && theElementBeforeThisOneIsANumber(index))) && theElementBeforeThisOneIsNotAVariable(index) && theElementIsNotThefirstInTheExpression(index) && theElementBeforeThisOneIsNotAParentheses(index)){
+    } else if (theElementBeforeThisOneIsANumber(index) &&(theElementIsAOperator(element) || element ===')' ) && theElementIsNotThefirstInTheExpression(index)){
       //Ver * no fim desta função
       
       formattedExpression.splice(index - addendOfCorrection - numberMaker.length,numberMaker.length,Number(numberMaker))
@@ -406,6 +390,8 @@ function formatExpression(expression) {
       numberMaker=''
     }
   })
+
+  alert(formattedExpression)
 
   return formattedExpression
   //* A addendOfCorrection serve para que o index da ExpressionArray seja correspondente ao index da formattedExpression (iniciamente cópia da ExpressionArray) que sofre redução no número de elementos devido ao uso do splice
