@@ -391,24 +391,22 @@ function formatExpression(expression) {
     }
   })
 
-  alert(formattedExpression)
-
   return formattedExpression
   //* A addendOfCorrection serve para que o index da ExpressionArray seja correspondente ao index da formattedExpression (iniciamente cópia da ExpressionArray) que sofre redução no número de elementos devido ao uso do splice
 }
 
-function getCoefficienteA(formattedExpression,positionOfXInTheFormattedExpression) {
+function getCoefficienteA(equation,positionOfXInTheEquation) {
   //Dado formattedExpression do tipo
   
-  if (formattedExpression.indexOf('x') - 3 >=0) {
-    return Number(formattedExpression[positionOfXInTheFormattedExpression - 3] + formattedExpression[positionOfXInTheFormattedExpression-2])
+  if (equation.indexOf('x') - 3 >=0) {
+    return Number(equation[positionOfXInTheEquation - 3] + equation[positionOfXInTheEquation-2])
   } else {
-    return Number(formattedExpression[positionOfXInTheFormattedExpression -2])
+    return Number(equation[positionOfXInTheEquation -2])
   }
 }
 
-function getCoefficienteB(formattedExpression,positionOfXInTheFormattedExpression) {
-  return Number(formattedExpression[positionOfXInTheFormattedExpression+1] + formattedExpression[positionOfXInTheFormattedExpression+2])
+function getCoefficienteB(equation,positionOfXInTheEquation) {
+  return Number(equation[positionOfXInTheEquation+1] + equation[positionOfXInTheEquation+2])
 }
 
 function solveEquation(equation) {
@@ -416,11 +414,11 @@ function solveEquation(equation) {
 
   //Dado uma expressão do tipo [a,*,'x',+,b,=,0]
 
-  let positionOfXInTheFormattedExpression = equation.indexOf('x')
+  let positionOfXInTheEquation = equation.indexOf('x')
 
-  let a = getCoefficienteA(equation,positionOfXInTheFormattedExpression)
+  let a = getCoefficienteA(equation,positionOfXInTheEquation)
 
-  let b = getCoefficienteB(equation,positionOfXInTheFormattedExpression)
+  let b = getCoefficienteB(equation,positionOfXInTheEquation)
 
   let valueOfX = -b/a
 
@@ -611,6 +609,9 @@ function generalFunction(value) {
 }
 
 //Fazer testes da redução para a forma canônica
+
+//Resolver problema dos números negativos após o '='
+  //Esse problema demanda bastante tempo e é preferível que seja resolvido no final
 
 //Validações das vírgulas
 //Validação do =
