@@ -448,6 +448,22 @@ function setSignOfCoefficientB(coefficientB) {
   return coefficientB > 0 ? '+' : '-'
 }
 
+function getNumericalPartOfTheLeftLimb(expression,positionOfX,positionOfEqual) {
+  let numericalPartOfTheLeftLimbAnteriorToX = null
+  let numericalPartOfTheLeftLimbPosteriorToX = expression.slice(positionOfX+1,positionOfEqual)
+
+  if (positionOfX > 3) {
+      //Há uma expressão numérica anterior ao a*x
+      numericalPartOfTheLeftLimbAnteriorToX = expression.slice(0,positionOfX-3)
+
+      return [...numericalPartOfTheLeftLimbAnteriorToX,...numericalPartOfTheLeftLimbPosteriorToX]
+
+      
+  } else {
+      return numericalPartOfTheLeftLimbPosteriorToX
+  }
+}
+
 //Reduzir expressão para a forma ax+b=0
 function getExpressionInCanonicalForm(expression) {
   //Caso ax+i=j
@@ -458,20 +474,8 @@ function getExpressionInCanonicalForm(expression) {
   let rightLimb = getRightLimb(expression,positionOfEqual)
 
   
-    let numericalPartOfTheLeftLimb = null
-    let numericalPartOfTheLeftLimbAnteriorToX = null
-    let numericalPartOfTheLeftLimbPosteriorToX = expression.slice(positionOfX+1,positionOfEqual)
-
-    if (positionOfX > 3) {
-      //Há uma expressão numérica anterior ao a*x
-      numericalPartOfTheLeftLimbAnteriorToX = expression.slice(0,positionOfX-3)
-
-      numericalPartOfTheLeftLimb = [...numericalPartOfTheLeftLimbAnteriorToX,...numericalPartOfTheLeftLimbPosteriorToX]
-
-      
-    } else {
-      numericalPartOfTheLeftLimb = numericalPartOfTheLeftLimbPosteriorToX
-    }
+  let numericalPartOfTheLeftLimb = getNumericalPartOfTheLeftLimb(expression,positionOfX,positionOfEqual)
+    
   
   rightLimb = solveExpression(identifyExpression(rightLimb))
 
