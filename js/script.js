@@ -353,6 +353,22 @@ function theElementBeforeThisOneIsNotAVariable(index) {
   }
 }
 
+function theElementBeforeThisOneIsNotAParentheses(index) {
+  if (valueType(ExpressionArray[index-1]) != 'parenthese') {
+    return true
+  } else {
+    return false
+  }
+}
+
+function theElementBeforeThisOneIsANumber(index) {
+  if (valueType(ExpressionArray[index-1]) === 'number') {
+    return true
+  } else {
+    return false
+  }
+}
+
 function theElementIsNotThefirstInTheExpression(index) {
   if (index === 0) {
     return false
@@ -367,7 +383,7 @@ function formatExpression(expression) {
   let formattedExpression = [...expression]
   let addendOfCorrection = 0
   
-  ExpressionArray.forEach((element,index)=> {
+  expression.forEach((element,index)=> {
     if (theElementIsANumber(element)) {
       if (theIndexRefersToTheLastElementOfTheArray(index)) {
         //Ver * no fim desta função
@@ -380,7 +396,7 @@ function formatExpression(expression) {
       } else {
         numberMaker+=String(element)
       }
-    } else if (theElementIsAOperator(element) && theElementBeforeThisOneIsNotAVariable(index) && theElementIsNotThefirstInTheExpression(index)){
+    } else if ((theElementIsAOperator(element) || (element ===')' && theElementBeforeThisOneIsANumber(index))) && theElementBeforeThisOneIsNotAVariable(index) && theElementIsNotThefirstInTheExpression(index) && theElementBeforeThisOneIsNotAParentheses(index)){
       //Ver * no fim desta função
       
       formattedExpression.splice(index - addendOfCorrection - numberMaker.length,numberMaker.length,Number(numberMaker))
@@ -609,7 +625,6 @@ function generalFunction(value) {
 }
 
 //Fazer testes da redução para a forma canônica
-//Melhorar código da solveEquation
 
 //Validações das vírgulas
 //Validação do =
