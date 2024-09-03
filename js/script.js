@@ -457,6 +457,22 @@ function getExpressionInCanonicalForm(expression) {
   
   let rightLimb = getRightLimb(expression,positionOfEqual)
 
+  //Teste para definir numericalPartOfTheLeftLimb
+    let numericalPartOfTheLeftLimbAnteriorToX = null
+    let numericalPartOfTheLeftLimbPosteriorToX = expression.slice(positionOfX+1,positionOfEqual)
+
+    if (positionOfX > 3) {
+      //Há uma expressão numérica anterior ao a*x
+      numericalPartOfTheLeftLimbAnteriorToX = expression.slice(0,positionOfX-3)
+      let teste = [...numericalPartOfTheLeftLimbAnteriorToX,...numericalPartOfTheLeftLimbPosteriorToX]
+
+      alert(teste)
+    }
+
+
+  //------------------------
+
+
   let numericalPartOfTheLeftLimb = expression.slice(positionOfX+1,positionOfEqual)
   
   rightLimb = solveExpression(identifyExpression(rightLimb))
