@@ -436,16 +436,14 @@ function theOperatorIsInvalidToBeTheFirstElementOfTheExpression(value) {
 }
 
 //Reduzir expressão para a forma ax+b=0
-function getExpressionInCanonicalForm() {
-  let formattedExpression = formatExpression(ExpressionArray)
-  
+function getExpressionInCanonicalForm(expression) {
   //Caso ax+i=j
 
-  let positionOfEqual = formattedExpression.indexOf('=')
-  let positionOfX = formattedExpression.indexOf('x')
+  let positionOfEqual = expression.indexOf('=')
+  let positionOfX = expression.indexOf('x')
   
-  let rightLimb = formattedExpression.slice(positionOfEqual+1)
-  let numericalPartOfTheLeftLimb = formattedExpression.slice(positionOfX+1,positionOfEqual)
+  let rightLimb = expression.slice(positionOfEqual+1)
+  let numericalPartOfTheLeftLimb = expression.slice(positionOfX+1,positionOfEqual)
 
   
   rightLimb = solveExpression(identifyExpression(rightLimb))
@@ -458,9 +456,9 @@ function getExpressionInCanonicalForm() {
 
   signOfCoefficientB = CoefficientB > 0 ? '+':'-'
 
-  formattedExpression.splice(positionOfX+1)
+  expression.splice(positionOfX+1)
 
-  let expressionArrayInCanonicalForm =[...formattedExpression,signOfCoefficientB,Math.abs(CoefficientB),'=',0]
+  let expressionArrayInCanonicalForm =[...expression,signOfCoefficientB,Math.abs(CoefficientB),'=',0]
 
   return expressionArrayInCanonicalForm
 }
@@ -496,7 +494,9 @@ function generalFunction(value) {
       //Referente ao solução de equações
     
       if (ExpressionArray.includes('x')) {
-        let expressionArrayInCanonicalForm = getExpressionInCanonicalForm()
+        let formattedExpression = formatExpression(ExpressionArray)
+        
+        let expressionArrayInCanonicalForm = getExpressionInCanonicalForm(formattedExpression)
         
         let valueOfX = solveEquation(expressionArrayInCanonicalForm)
 
