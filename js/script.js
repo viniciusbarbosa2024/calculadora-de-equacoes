@@ -435,6 +435,19 @@ function theOperatorIsInvalidToBeTheFirstElementOfTheExpression(value) {
   
 }
 
+//Retorna o array da expressão no membro direito da equação
+function getRightLimb(expression,positionOfEqual) {
+  return expression.slice(positionOfEqual+1)
+}
+
+function reduceNumericalPartToCoefficientB(numericalPartOfTheLeftLimb,rightLimb) {
+  return numericalPartOfTheLeftLimb - rightLimb
+}
+
+function setSignOfCoefficientB(coefficientB) {
+  return coefficientB > 0 ? '+' : '-'
+}
+
 //Reduzir expressão para a forma ax+b=0
 function getExpressionInCanonicalForm(expression) {
   //Caso ax+i=j
@@ -442,23 +455,21 @@ function getExpressionInCanonicalForm(expression) {
   let positionOfEqual = expression.indexOf('=')
   let positionOfX = expression.indexOf('x')
   
-  let rightLimb = expression.slice(positionOfEqual+1)
-  let numericalPartOfTheLeftLimb = expression.slice(positionOfX+1,positionOfEqual)
+  let rightLimb = getRightLimb(expression,positionOfEqual)
 
+  let numericalPartOfTheLeftLimb = expression.slice(positionOfX+1,positionOfEqual)
   
   rightLimb = solveExpression(identifyExpression(rightLimb))
 
   numericalPartOfTheLeftLimb = solveExpression(identifyExpression(numericalPartOfTheLeftLimb))
 
-  let CoefficientB = numericalPartOfTheLeftLimb - rightLimb
+  let coefficientB = reduceNumericalPartToCoefficientB(numericalPartOfTheLeftLimb,rightLimb)
 
-  let signOfCoefficientB = null
-
-  signOfCoefficientB = CoefficientB > 0 ? '+':'-'
+  let signOfCoefficientB = setSignOfCoefficientB(coefficientB)
 
   expression.splice(positionOfX+1)
 
-  let expressionArrayInCanonicalForm =[...expression,signOfCoefficientB,Math.abs(CoefficientB),'=',0]
+  let expressionArrayInCanonicalForm =[...expression,signOfCoefficientB,Math.abs(coefficientB),'=',0]
 
   return expressionArrayInCanonicalForm
 }
