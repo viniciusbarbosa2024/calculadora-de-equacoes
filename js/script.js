@@ -1,3 +1,5 @@
+'use strict'
+
 const screen = document.getElementById("screen");
 const solve = document.getElementById("solve")
 const clear = document.getElementById("clear");
@@ -467,9 +469,56 @@ function getNumericalPartOfTheLeftLimb(expression,positionOfX,positionOfEqual) {
   }
 }
 
+function reduceExpressionSoThatItHasOnlyOneOccurrenceOfX(expression) {
+  let positionOfEqual = expression.indexOf('=')
+  
+  let indexesOfX = []
+  expression.forEach((element,index)=> {
+    if(element === 'x') {
+      indexesOfX.push(index)
+    }
+  })
+
+  let indexesOfOccurrencesOfXInTheLeftLimb = indexesOfX.filter((indexes)=>indexes < positionOfEqual)
+
+  let indexesOfOccurrencesOfXInTheRightLimb = indexesOfX.filter((indexes)=>indexes > positionOfEqual)
+
+
+  let coefficientsOfOccurrencesOfXInTheLeftLimb = []
+  let coefficientsOfOccurrencesOfXInTheRightLimb = []
+  
+  indexesOfOccurrencesOfXInTheLeftLimb.forEach((indexOfX)=> {
+    
+    if (indexOfX === 2) {
+      coefficientsOfOccurrencesOfXInTheLeftLimb.push('+')
+      coefficientsOfOccurrencesOfXInTheLeftLimb.push(expression[indexOfX-2])
+
+    } else {
+      coefficientsOfOccurrencesOfXInTheLeftLimb.push(expression[indexOfX-3])
+
+      coefficientsOfOccurrencesOfXInTheLeftLimb.push(expression[indexOfX-2])
+    }
+  })
+
+  indexesOfOccurrencesOfXInTheRightLimb.forEach((indexOfX)=> {
+    if (indexOfX === positionOfEqual+3) {
+      coefficientsOfOccurrencesOfXInTheRightLimb.push('+',expression[indexOfX-2])
+    } else {
+      coefficientsOfOccurrencesOfXInTheRightLimb.push(expression[indexOfX-3],expression[indexOfX-2])
+    }
+  })
+
+  let CoefficientA = solveExpression(identifyExpression(coefficientsOfOccurrencesOfXInTheLeftLimb)) - solveExpression(identifyExpression(coefficientsOfOccurrencesOfXInTheRightLimb))
+  
+  alert(CoefficientA)
+
+}
+
 //Reduzir expressão para a forma ax+b=0
 function getExpressionInCanonicalForm(expression) {
-  //Caso ax+i=j
+  if (expression.indexOf('x') != expression.lastIndexOf('x')) {
+    expression = reduceExpressionSoThatItHasOnlyOneOccurrenceOfX(expression)
+  }
 
   let positionOfEqual = expression.indexOf('=')
   let positionOfX = expression.indexOf('x')
@@ -629,11 +678,14 @@ function generalFunction(value) {
   }
 }
 
-//Fazer testes da redução para a forma canônica
+//Resolver casos de redução para a forma canônica com expressões com mais de um x
+
+//Ver bug da reduceExpressionSoThatItHasOnlyOneOccurrenceOfX
 
 //Resolver problema dos números negativos após o '='
   //Esse problema demanda bastante tempo e é preferível que seja resolvido no final
 
 //Validações das vírgulas
+
 //Validação do =
 
