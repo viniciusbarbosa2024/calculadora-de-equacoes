@@ -711,7 +711,7 @@ function generalFunction(value) {
           break
 
         case 'operator': 
-          if (characterBeforeCursorIsAOperator() || (ExpressionArray.length === 0 &&theOperatorIsInvalidToBeTheFirstElementOfTheExpression(value))) {
+          if ((characterBeforeCursorIsAOperator() && characterBeforeCursor() != '=') || (ExpressionArray.length === 0 &&theOperatorIsInvalidToBeTheFirstElementOfTheExpression(value))) {
             alert('formato inválido')
             displayCursor()
           } else {
