@@ -469,9 +469,7 @@ function getNumericalPartOfTheLeftLimb(expression,positionOfX,positionOfEqual) {
   }
 }
 
-function reduceExpressionSoThatItHasOnlyOneOccurrenceOfX(expression) {
-  let positionOfEqual = expression.indexOf('=')
-  
+function getIndexesOfX(expression) {
   let indexesOfX = []
   expression.forEach((element,index)=> {
     if(element === 'x') {
@@ -479,9 +477,50 @@ function reduceExpressionSoThatItHasOnlyOneOccurrenceOfX(expression) {
     }
   })
 
-  let indexesOfOccurrencesOfXInTheLeftLimb = indexesOfX.filter((indexes)=>indexes < positionOfEqual)
+  return indexesOfX
+}
 
-  let indexesOfOccurrencesOfXInTheRightLimb = indexesOfX.filter((indexes)=>indexes > positionOfEqual)
+function getIndexesOfOccurrencesOfX(indexesOfX,positionOfEqual,limb) {
+  if (limb === 'left') {
+    return indexesOfX.filter((indexes)=>indexes < positionOfEqual)
+  } else if (limb === 'right') {
+    return indexesOfX.filter((indexes)=>indexes > positionOfEqual)
+  }
+}
+
+function calculateCoefficientA(coefficientsOfOccurrencesOfXInTheLeftLimb,coefficientsOfOccurrencesOfXInTheRightLimb) {
+  if (coefficientsOfOccurrencesOfXInTheRightLimb.length === 0) {
+    return solveExpression(identifyExpression(coefficientsOfOccurrencesOfXInTheLeftLimb))
+  } else {
+  
+    return (
+      solveExpression(identifyExpression(coefficientsOfOccurrencesOfXInTheLeftLimb)) - solveExpression(identifyExpression(coefficientsOfOccurrencesOfXInTheRightLimb))
+    )
+
+  }
+}
+
+function removeAllOccurrencesOfXInTheExpression(indexesOfX,positionOfEqual,expression) {
+  indexesOfX.forEach((indexOfX) => {
+    if (indexOfX === 2 || indexOfX === positionOfEqual+3) {
+      expression.splice(indexOfX-2,3,null,null,null)
+    } else {
+      expression.splice(indexOfX-3,4,null,null,null,null)
+    }
+  })
+
+  return expression.filter((element)=> element != null)
+}
+
+function reduceExpressionSoThatItHasOnlyOneOccurrenceOfX(expression) {
+  let positionOfEqual = expression.indexOf('=')
+  
+  let indexesOfX = getIndexesOfX(expression)
+  
+
+  let indexesOfOccurrencesOfXInTheLeftLimb = getIndexesOfOccurrencesOfX(indexesOfX,positionOfEqual,'left')
+
+  let indexesOfOccurrencesOfXInTheRightLimb = getIndexesOfOccurrencesOfX(indexesOfX,positionOfEqual,'right')
 
 
   let coefficientsOfOccurrencesOfXInTheLeftLimb = []
@@ -508,19 +547,13 @@ function reduceExpressionSoThatItHasOnlyOneOccurrenceOfX(expression) {
     }
   })
 
-  let coefficientA = solveExpression(identifyExpression(coefficientsOfOccurrencesOfXInTheLeftLimb)) - solveExpression(identifyExpression(coefficientsOfOccurrencesOfXInTheRightLimb))
+  let coefficientA = calculateCoefficientA(coefficientsOfOccurrencesOfXInTheLeftLimb,coefficientsOfOccurrencesOfXInTheRightLimb)
+  
   
   //Função para remover os xis da expressão, de forma a ficar somente um
-
-  indexesOfX.forEach((indexOfX) => {
-    if (indexOfX === 2 || indexOfX === positionOfEqual+3) {
-      expression.splice(indexOfX-2,3,null,null,null)
-    } else {
-      expression.splice(indexOfX-3,4,null,null,null,null)
-    }
-  })
-
-  expression = expression.filter((element)=> element != null)
+  
+  expression = removeAllOccurrencesOfXInTheExpression(indexesOfX,positionOfEqual,expression)
+  
 
   if (coefficientA < 0) {
     expression.unshift('-',Math.abs(coefficientA),'*','x')
@@ -704,9 +737,7 @@ function generalFunction(value) {
   }
 }
 
-//Resolver casos de redução para a forma canônica com expressões com mais de um x
-
-//Ver bug da reduceExpressionSoThatItHasOnlyOneOccurrenceOfX
+//Resolver problema de da expressão sem expressão numérica no lado esquerdo
 
 //Resolver problema dos números negativos após o '='
   //Esse problema demanda bastante tempo e é preferível que seja resolvido no final
