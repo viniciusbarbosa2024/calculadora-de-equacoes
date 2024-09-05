@@ -424,9 +424,9 @@ function solveEquation(equation) {
 
   if (a === 0) {
     if (b === 0) {
-      return 'A expressão é verdadeira para qualquer valor de x'
+      return 'A expressão é verdadeira para qualquer x'
     } else {
-      return 'A expressão é falsa para qualquer valor de x' 
+      return 'A expressão é falsa para qualquer x' 
     }
   }
 
@@ -769,13 +769,4 @@ function generalFunction(value) {
       }
   }
 }
-
-//Resolver problema de da expressão sem expressão numérica no lado esquerdo
-
-//Resolver problema dos números negativos após o '='
-  //Esse problema demanda bastante tempo e é preferível que seja resolvido no final
-
-//Validações das vírgulas
-
-//Validação do =
 
