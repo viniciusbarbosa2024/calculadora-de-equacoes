@@ -512,6 +512,32 @@ function removeAllOccurrencesOfXInTheExpression(indexesOfX,positionOfEqual,expre
   return expression.filter((element)=> element != null)
 }
 
+function addXAndCoefficientA(coefficientA,expression) {
+  if (coefficientA < 0) {
+    expression.unshift('-',Math.abs(coefficientA),'*','x')
+  } else {
+    expression.unshift(coefficientA,'*','x')
+  }
+
+  return expression
+}
+
+function checkIfTheLeftMemberIsEmpty(expression) {
+  if (expression[expression.length-1] === '=') {
+    expression.push(0)
+  }
+
+  return expression
+}
+
+function checkForAbsenceOfSignalInElement3(expression) {
+  if (typeof expression[3] === 'number') {
+    expression.splice(3,0,setSign(expression[3]))
+  }
+
+  return expression
+}
+
 function reduceExpressionSoThatItHasOnlyOneOccurrenceOfX(expression) {
   let positionOfEqual = expression.indexOf('=')
   
@@ -549,25 +575,13 @@ function reduceExpressionSoThatItHasOnlyOneOccurrenceOfX(expression) {
 
   let coefficientA = calculateCoefficientA(coefficientsOfOccurrencesOfXInTheLeftLimb,coefficientsOfOccurrencesOfXInTheRightLimb)
   
-  
-  //Função para remover os xis da expressão, de forma a ficar somente um
-  
   expression = removeAllOccurrencesOfXInTheExpression(indexesOfX,positionOfEqual,expression)
-  
 
-  if (coefficientA < 0) {
-    expression.unshift('-',Math.abs(coefficientA),'*','x')
-  } else {
-    expression.unshift(coefficientA,'*','x')
-  }
+  expression = addXAndCoefficientA(coefficientA,expression)
 
-  if (expression[expression.length-1] === '=') {
-    expression.push(0)
-  }
+  expression = checkIfTheLeftMemberIsEmpty(expression)
 
-  if (typeof expression[3] === 'number') {
-    expression.splice(3,0,setSign(expression[3]))
-  }
+  expression = checkForAbsenceOfSignalInElement3(expression)
 
   return expression
 
