@@ -446,7 +446,7 @@ function reduceNumericalPartToCoefficientB(numericalPartOfTheLeftLimb,rightLimb)
   return numericalPartOfTheLeftLimb - rightLimb
 }
 
-function setSignOfCoefficientB(coefficientB) {
+function setSign(coefficientB) {
   return coefficientB > 0 ? '+' : '-'
 }
 
@@ -508,9 +508,35 @@ function reduceExpressionSoThatItHasOnlyOneOccurrenceOfX(expression) {
     }
   })
 
-  let CoefficientA = solveExpression(identifyExpression(coefficientsOfOccurrencesOfXInTheLeftLimb)) - solveExpression(identifyExpression(coefficientsOfOccurrencesOfXInTheRightLimb))
+  let coefficientA = solveExpression(identifyExpression(coefficientsOfOccurrencesOfXInTheLeftLimb)) - solveExpression(identifyExpression(coefficientsOfOccurrencesOfXInTheRightLimb))
   
-  alert(CoefficientA)
+  //Função para remover os xis da expressão, de forma a ficar somente um
+
+  indexesOfX.forEach((indexOfX) => {
+    if (indexOfX === 2 || indexOfX === positionOfEqual+3) {
+      expression.splice(indexOfX-2,3,null,null,null)
+    } else {
+      expression.splice(indexOfX-3,4,null,null,null,null)
+    }
+  })
+
+  expression = expression.filter((element)=> element != null)
+
+  if (coefficientA < 0) {
+    expression.unshift('-',Math.abs(coefficientA),'*','x')
+  } else {
+    expression.unshift(coefficientA,'*','x')
+  }
+
+  if (expression[expression.length-1] === '=') {
+    expression.push(0)
+  }
+
+  if (typeof expression[3] === 'number') {
+    expression.splice(3,0,setSign(expression[3]))
+  }
+
+  return expression
 
 }
 
@@ -535,7 +561,7 @@ function getExpressionInCanonicalForm(expression) {
 
   let coefficientB = reduceNumericalPartToCoefficientB(numericalPartOfTheLeftLimb,rightLimb)
 
-  let signOfCoefficientB = setSignOfCoefficientB(coefficientB)
+  let signOfCoefficientB = setSign(coefficientB)
 
   expression.splice(positionOfX+1)
 
