@@ -422,6 +422,14 @@ function solveEquation(equation) {
 
   let b = getCoefficienteB(equation,positionOfXInTheEquation)
 
+  if (a === 0) {
+    if (b === 0) {
+      return 'A expressão é verdadeira para qualquer valor de x'
+    } else {
+      return 'A expressão é falsa para qualquer valor de x' 
+    }
+  }
+
   let valueOfX = -b/a
 
   return valueOfX
@@ -657,9 +665,15 @@ function generalFunction(value) {
         
         let expressionArrayInCanonicalForm = getExpressionInCanonicalForm(formattedExpression)
         
-        let valueOfX = solveEquation(expressionArrayInCanonicalForm)
+        let resultOfEquation = solveEquation(expressionArrayInCanonicalForm)
 
-        displayOnScreen(`x = ${valueOfX}`)
+        if (isNaN(Number(resultOfEquation))) {
+          displayOnScreen(resultOfEquation)
+        } else {
+          displayOnScreen(`x = ${resultOfEquation}`)
+        }
+
+        
       }
 
       //----------------------------------
