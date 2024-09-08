@@ -600,14 +600,36 @@ function reduceExpressionSoThatItHasOnlyOneOccurrenceOfX(expression) {
 
 }
 
+function getLeftLimb(expression,positionOfEqual) {
+  return expression.slice(0,positionOfEqual)
+}
+ 
+function invertMembersOfTheEquation(expression) {
+  let positionOfEqual = expression.indexOf('=')
+  let positionOfX = expression.indexOf('x')
+  
+  let rightLimb = getRightLimb(expression,positionOfEqual)
+
+  let leftLimb = getLeftLimb(expression,positionOfEqual)
+
+  expression = [...rightLimb,'=',...leftLimb]
+
+  return expression
+}
+
 //Reduzir expressão para a forma ax+b=0
 function getExpressionInCanonicalForm(expression) {
+  if (expression.indexOf('x') > expression.indexOf('=')) {
+    expression = invertMembersOfTheEquation(expression)
+  }
+  
   if (expression.indexOf('x') != expression.lastIndexOf('x')) {
     expression = reduceExpressionSoThatItHasOnlyOneOccurrenceOfX(expression)
   }
 
   let positionOfEqual = expression.indexOf('=')
   let positionOfX = expression.indexOf('x')
+
   
   let rightLimb = getRightLimb(expression,positionOfEqual)
 
