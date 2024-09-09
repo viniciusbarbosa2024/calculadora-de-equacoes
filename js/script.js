@@ -638,7 +638,7 @@ function calculateCoefficientsOfOccurrencesOfX(expression) {
       i++
     }
     
-    parcelsOfExpression.push(...parcel)
+    parcelsOfExpression.push([...parcel])
     parcel.splice(0)
     i = indexesOfTheExpressionParcelSeparators[j] + 1
 
@@ -651,8 +651,15 @@ function calculateCoefficientsOfOccurrencesOfX(expression) {
     j++
   }
 
-  
+  let parcelsOfTheExpressionContainingX = []
 
+  parcelsOfExpression.forEach(parcel => {
+    if (parcel.includes('x')) {
+      parcelsOfTheExpressionContainingX.push(parcel)
+    }
+  }) 
+
+  
   
 }
  
