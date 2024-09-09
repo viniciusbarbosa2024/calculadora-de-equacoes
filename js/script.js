@@ -606,7 +606,6 @@ function getLeftLimb(expression,positionOfEqual) {
  
 function invertMembersOfTheEquation(expression) {
   let positionOfEqual = expression.indexOf('=')
-  let positionOfX = expression.indexOf('x')
   
   let rightLimb = getRightLimb(expression,positionOfEqual)
 
@@ -617,8 +616,50 @@ function invertMembersOfTheEquation(expression) {
   return expression
 }
 
+function calculateCoefficientsOfOccurrencesOfX(expression) {
+  //Os "separadores de parcela" são os operadores que "definem" as parcelas da expressão (+,- e =)
+  let indexesOfTheExpressionParcelSeparators = []
+  let parcelsOfExpression = []
+
+  expression.forEach((element,index)=> {
+    if (element === '+' || element === '-' || element === '=') {
+      indexesOfTheExpressionParcelSeparators.push(index)
+    }
+  })
+
+  let parcel = []
+  let i = 0
+  
+
+  let j = 0
+  while (j<indexesOfTheExpressionParcelSeparators.length) {
+    while (i < indexesOfTheExpressionParcelSeparators[j]) {
+      parcel.push(expression[i])
+      i++
+    }
+    
+    parcelsOfExpression.push(...parcel)
+    parcel.splice(0)
+    i = indexesOfTheExpressionParcelSeparators[j] + 1
+
+    //Adicionar a última parcela
+    if (j === indexesOfTheExpressionParcelSeparators.length - 1) {
+      let lastParcel = expression.slice(indexesOfTheExpressionParcelSeparators[j]+1,expression.length)
+      parcelsOfExpression.push(lastParcel)
+    }
+
+    j++
+  }
+
+  
+
+  
+}
+ 
 //Reduzir expressão para a forma ax+b=0
 function getExpressionInCanonicalForm(expression) {
+  expression = calculateCoefficientsOfOccurrencesOfX(expression)
+  
   if (expression.indexOf('x') > expression.indexOf('=')) {
     expression = invertMembersOfTheEquation(expression)
   }
