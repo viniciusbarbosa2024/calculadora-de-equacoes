@@ -659,7 +659,13 @@ function calculateCoefficientsOfOccurrencesOfX(expression) {
     }
   }) 
 
-  
+  let coefficientsOfTheOccurrencesOfX = parcelsOfTheExpressionContainingX.map(parcel => {
+    parcel.splice(parcel.indexOf('x')-1,2)
+
+    return solveExpression(identifyExpression(parcel))
+  })
+
+  alert(coefficientsOfTheOccurrencesOfX)
   
 }
  
